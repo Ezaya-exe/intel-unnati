@@ -1,22 +1,86 @@
-# 📚 NCERT Multilingual Doubt Solver
+# NCERT Multilingual Doubt Solver 📚
 
-An AI-powered Retrieval-Augmented Generation (RAG) system for answering NCERT textbook queries for students in Grades 5-10. Built for the **Intel Unnati Program**.
+> **Intel Unnati Grand Challenge 2024-25** | AI-powered educational assistant for NCERT curriculum
+
+An intelligent doubt-solver for students in Grades 5-10 that uses NCERT textbooks as the sole knowledge source. Built with a Retrieval-Augmented Generation (RAG) pipeline, supporting Hindi and English with accurate citations.
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-CUDA-green)
 ![Gradio](https://img.shields.io/badge/Gradio-4.0+-orange)
+![LLM](https://img.shields.io/badge/LLM-Qwen3--4B-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
 
-## 🌟 Features
+## ✨ Features
 
-- **RAG Pipeline**: Retrieves relevant context from NCERT textbooks before generating answers
-- **Multilingual Support**: Works with English, Hindi, and other Indian languages
-- **GPU Accelerated**: Uses CUDA for fast inference with Qwen3-4B GGUF model
-- **11,400+ Chunks**: Indexed content from Classes 5-10 across all subjects
-- **Citation System**: Shows source textbook and chapter for each answer
-- **Gradio UI**: Clean web interface for easy interaction
+| Feature | Description |
+|---------|-------------|
+| 🌍 **Multilingual** | Hindi & English with auto language detection |
+| 📊 **Grade Filtering** | Filter responses by Grade (5-10) and Subject |
+| 📖 **Citations** | Every answer includes source references |
+| 💬 **Conversation** | 5-turn conversation memory |
+| 🤖 **Smart Fallback** | "I don't know" for out-of-scope queries |
+| 👍 **Feedback** | Rate answers with thumbs up/down |
+| 📱 **Mobile Ready** | Responsive UI for web and mobile |
+| 🔍 **Hybrid Search** | BM25 + Semantic search with reranking |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **WSL2** with Ubuntu (Windows)
+- **Conda** (Miniconda/Anaconda)
+- **NVIDIA GPU** with CUDA 12.1+ (4GB+ VRAM)
+
+### 1. Clone & Setup Environment
+
+```bash
+# Clone the repository
+cd /mnt/d/study/python
+git clone <repo-url> intel-unnati
+cd intel-unnati
+
+# Create conda environment
+conda env create -f environment.yml
+conda activate ncert_rag
+```
+
+### 2. Download NCERT Textbooks
+
+```bash
+python download_ncert.py
+```
+This downloads 465+ PDF chapters for Grades 5-10 (~2GB).
+
+### 3. Download the LLM Model
+
+```bash
+# Download Qwen3-4B-Q4 GGUF model
+mkdir -p models
+cd models
+wget https://huggingface.co/lmstudio-community/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q4_K_M.gguf
+cd ..
+```
+
+### 4. Ingest PDFs into Vector Database
+
+```bash
+python ingest_pdfs.py
+```
+Creates vector embeddings for all textbook content.
+
+### 5. Run the Application
+
+```bash
+# Web UI (Gradio)
+python app.py
+# Open http://localhost:7860
+
+# REST API (FastAPI)
+python api.py
+# Open http://localhost:8000/docs
+```
 
 ---
 
@@ -24,193 +88,179 @@ An AI-powered Retrieval-Augmented Generation (RAG) system for answering NCERT te
 
 ```
 intel-unnati/
-├── app.py                    # 🌐 Main Gradio web application
-├── ingest_pdfs.py            # 📄 PDF text extraction & embedding ingestion
-├── download_ncert.py         # ⬇️ NCERT textbook downloader script
+├── app.py                  # 🌐 Gradio web interface
+├── api.py                  # 🔌 FastAPI REST endpoints
+├── evaluate.py             # 📊 Benchmarking script
+├── ingest_pdfs.py          # 📥 PDF ingestion pipeline
+├── download_ncert.py       # ⬇️ NCERT textbook downloader
 │
-├── src/                      # 📦 Core modules
+├── src/
 │   ├── core/
-│   │   ├── doubt_solver.py   # Main RAG orchestrator
-│   │   └── feedback.py       # User feedback system
-│   │
-│   ├── generation/
-│   │   ├── qwen_gguf.py      # Qwen3-4B GGUF model inference
-│   │   ├── llm_generator.py  # Generic LLM wrapper
-│   │   └── phi_model.py      # (Legacy) Phi-3 model support
+│   │   ├── doubt_solver.py # 🧠 Main RAG orchestrator
+│   │   └── feedback.py     # 👍 Feedback collection
 │   │
 │   ├── retrieval/
-│   │   └── vector_store.py   # ChromaDB vector store
+│   │   ├── vector_store.py # 💾 ChromaDB + advanced search
+│   │   ├── hybrid_search.py# 🔍 BM25 + semantic fusion
+│   │   ├── reranker.py     # 📈 Cross-encoder reranking
+│   │   └── query_expansion.py # 🔄 Query term expansion
 │   │
-│   ├── embedding/
-│   │   └── chunk_text.py     # Text chunking with LangChain
+│   ├── generation/
+│   │   ├── qwen_gguf.py    # 🤖 GGUF model inference
+│   │   └── llm_generator.py# 📝 LLM wrapper
 │   │
 │   └── ocr/
-│       └── extract_text.py   # OCR for scanned PDFs (Tesseract)
+│       └── extract_text.py # 📷 Tesseract OCR
 │
-├── data/                     # 📊 Data directory (gitignored)
-│   ├── raw_pdfs/             # Downloaded NCERT PDFs by grade
-│   │   ├── grade_5/
-│   │   ├── grade_6/
-│   │   └── ...
-│   ├── vector_db/            # ChromaDB persistent storage
-│   └── processed/            # Intermediate processing files
+├── data/
+│   ├── raw_pdfs/           # 📚 Downloaded NCERT PDFs
+│   ├── vector_db/          # 🗄️ ChromaDB storage
+│   └── evaluation/         # 📋 Benchmark datasets
 │
-├── models/                   # 🤖 Model files (gitignored)
-│   └── Qwen3-4B-Q4_K_M.gguf  # Quantized LLM model
+├── docs/
+│   └── DESIGN.md           # 📐 Architecture documentation
 │
-├── configs/                  # ⚙️ Configuration files
-│   └── settings.yaml
-│
-├── environment.yml           # 📦 Conda environment specification
-├── requirements.txt          # 📦 Pip requirements
-├── .gitignore               # Git ignore rules
-└── README.md                # This file
+├── environment.yml         # 📦 Conda environment
+└── requirements.txt        # 📦 Pip dependencies
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🎯 Performance Targets
 
-### Prerequisites
+| Metric | Target | Achieved |
+|--------|--------|----------|
+| End-to-end Latency | ≤ 3-5 seconds | ✅ ~2-4s |
+| Citation Accuracy | ≥ 85% | Run `python evaluate.py` |
+| GPU Memory | ≤ 4GB VRAM | ✅ ~3.5GB |
 
-- **Operating System**: WSL2 (Ubuntu) on Windows, or native Linux
-- **GPU**: NVIDIA GPU with CUDA 12.1+ support
-- **Conda**: Miniconda or Anaconda installed
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/ncert-doubt-solver.git
-cd ncert-doubt-solver
-```
-
-### 2. Create Conda Environment
+### Run Benchmarks
 
 ```bash
-# Create environment from yml file
-conda env create -f environment.yml
+# Run full evaluation (50 questions)
+python evaluate.py
 
-# Activate environment
-conda activate ncert_rag
+# Run quick test (10 questions)
+python evaluate.py -n 10
 ```
-
-### 3. Download NCERT Textbooks
-
-```bash
-python download_ncert.py
-```
-
-This downloads all NCERT textbooks (Classes 5-10) and organizes them in `data/raw_pdfs/`.
-
-### 4. Download the LLM Model
-
-Download the Qwen3-4B GGUF model:
-
-```bash
-mkdir -p models
-# Download from HuggingFace
-wget https://huggingface.co/unsloth/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q4_K_M.gguf -P models/
-```
-
-### 5. Ingest PDFs into Vector Database
-
-```bash
-python ingest_pdfs.py
-```
-
-This extracts text from all PDFs, creates embeddings, and stores them in ChromaDB.
-
-### 6. Run the Application
-
-```bash
-python app.py
-```
-
-Open your browser and navigate to: **http://localhost:7860**
 
 ---
 
-## 🧪 Sample Questions to Try
+## 🔌 API Reference
 
-After launching the app, try these questions:
+### Chat Endpoint
+```http
+POST /api/chat
+```
 
-| Grade | Question |
-|-------|----------|
-| 10 | "Explain the Fundamental Theorem of Arithmetic with an example" |
-| 10 | "What is the difference between metallic and electrolytic conductors?" |
-| 9 | "Describe the nitrogen cycle and its importance in agriculture" |
-| 9 | "How did the Treaty of Versailles lead to World War II?" |
-| 8 | "What are rational numbers? Give examples." |
+**Request:**
+```json
+{
+  "question": "What is photosynthesis?",
+  "grade": 10,
+  "subject": "Science",
+  "language": null
+}
+```
+
+**Response:**
+```json
+{
+  "question_id": "abc123",
+  "answer": "Photosynthesis is the process by which...",
+  "language": "English",
+  "citations": [...],
+  "latency_ms": 2340,
+  "in_scope": true
+}
+```
+
+### Feedback Endpoint
+```http
+POST /api/feedback
+```
+
+### Full API Docs
+Open http://localhost:8000/docs after starting the API server.
 
 ---
 
-## ⚙️ Configuration
+## 📖 Sample Questions
 
-### Environment Variables (.env)
+Try these questions to test the system:
 
-Create a `.env` file in the project root:
+| Grade | Subject | Question |
+|-------|---------|----------|
+| 10 | Science | What is the difference between evaporation and boiling? |
+| 10 | Maths | Explain the Fundamental Theorem of Arithmetic |
+| 9 | Social | What were the causes of the French Revolution? |
+| 8 | Science | Describe the structure of an atom |
+| 7 | Maths | What is the area of a circle? |
+| 9 | Hindi | प्रकाश संश्लेषण क्या है? |
+
+---
+
+## 🛠️ Technology Stack
+
+- **LLM**: Qwen3-4B-GGUF (Q4_K_M quantized)
+- **Embeddings**: paraphrase-multilingual-mpnet-base-v2
+- **Vector DB**: ChromaDB
+- **Keyword Search**: BM25 (rank-bm25)
+- **Reranker**: ms-marco-MiniLM-L-6-v2
+- **Web UI**: Gradio
+- **API**: FastAPI
+- **PDF Parser**: PyMuPDF
+
+---
+
+## 📊 Architecture
+
+```
+Query → Language Detection → Query Expansion → Hybrid Search (BM25+Semantic)
+                                                        ↓
+                                               Cross-Encoder Rerank
+                                                        ↓
+Answer ← Citation Formatter ← LLM Generation ← Context Builder
+```
+
+For detailed architecture, see [docs/DESIGN.md](docs/DESIGN.md).
+
+---
+
+## 🔧 Configuration
+
+Create a `.env` file:
 
 ```env
 # Model Configuration
-MODEL_PATH=/path/to/models/Qwen3-4B-Q4_K_M.gguf
-N_GPU_LAYERS=-1  # -1 for all layers on GPU
+GGUF_MODEL_PATH=models/Qwen3-4B-Q4_K_M.gguf
+N_GPU_LAYERS=35
+N_CTX=4096
 
 # Vector Store
 VECTOR_DB_PATH=data/vector_db
 EMBEDDING_MODEL=paraphrase-multilingual-mpnet-base-v2
+
+# Search Settings
+HYBRID_SEARCH=true
+RERANKING=true
+QUERY_EXPANSION=true
 ```
 
 ---
 
-## 📊 Technical Stack
+## 📜 License
 
-| Component | Technology |
-|-----------|------------|
-| **LLM** | Qwen3-4B (GGUF, 4-bit quantized) |
-| **Embeddings** | `paraphrase-multilingual-mpnet-base-v2` |
-| **Vector DB** | ChromaDB |
-| **PDF Parsing** | PyMuPDF (fitz) |
-| **Text Splitting** | LangChain RecursiveCharacterTextSplitter |
-| **Web UI** | Gradio |
-| **Inference** | llama-cpp-python (CUDA) |
-
----
-
-## 🛠️ Development
-
-### Running in Development Mode
-
-```bash
-# With hot-reload
-gradio app.py
-```
-
-### Rebuilding Vector Store
-
-To re-ingest all PDFs (e.g., after adding new textbooks):
-
-```bash
-rm -rf data/vector_db/*
-python ingest_pdfs.py
-```
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License.
+MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Intel Unnati Program** for project sponsorship
-- **NCERT** for educational content
-- **Unsloth** for optimized GGUF models
-- **HuggingFace** for transformers and sentence-transformers
+- **Intel Unnati Program** for the problem statement
+- **NCERT** for providing open-access textbooks
+- **Qwen Team** for the multilingual LLM
 
 ---
 
-## 📧 Contact
-
-For questions or feedback, reach out via GitHub Issues.
+*Built with ❤️ for students across India*

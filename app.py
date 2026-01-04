@@ -172,13 +172,146 @@ def get_stats():
     except Exception as e:
         return f"Error loading stats: {str(e)}"
 
-# Define Gradio interface
-with gr.Blocks(title="NCERT Doubt Solver") as demo:
+# Define custom CSS for mobile responsiveness
+CUSTOM_CSS = """
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+    .gradio-container {
+        padding: 10px !important;
+    }
+    
+    /* Stack columns vertically on mobile */
+    .contain > .flex {
+        flex-direction: column !important;
+    }
+    
+    /* Make chat take full width */
+    .chatbot {
+        height: 350px !important;
+    }
+    
+    /* Hide sidebar on very small screens, show as collapsible */
+    .sidebar-column {
+        order: -1 !important;
+    }
+    
+    /* Larger touch targets */
+    button {
+        min-height: 44px !important;
+        font-size: 16px !important;
+    }
+    
+    /* Bigger input text for mobile */
+    textarea, input {
+        font-size: 16px !important;
+    }
+    
+    /* Feedback buttons inline */
+    .feedback-row {
+        flex-wrap: nowrap !important;
+    }
+    
+    .feedback-btn {
+        min-width: 60px !important;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .chatbot {
+        height: 380px !important;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 1025px) {
+    .chatbot {
+        height: 450px !important;
+    }
+}
+
+/* Custom styling for all devices */
+.citation-box {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.feedback-btn {
+    padding: 8px 16px !important;
+    font-size: 20px !important;
+}
+
+/* Header styling */
+.header-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.header-container h1 {
+    margin: 0 !important;
+    color: white !important;
+}
+
+.header-container p {
+    margin: 5px 0 0 0 !important;
+    opacity: 0.9;
+}
+
+/* Filter section */
+.filter-section {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 10px;
+}
+
+/* Input styling */
+.input-container textarea {
+    border-radius: 12px !important;
+    border: 2px solid #e2e8f0 !important;
+}
+
+.input-container textarea:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+}
+
+/* Send button styling */
+.send-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+}
+"""
+
+# Define Gradio interface with custom theme
+with gr.Blocks(
+    title="NCERT Doubt Solver",
+    css=CUSTOM_CSS,
+    theme=gr.themes.Soft(
+        primary_hue="indigo",
+        secondary_hue="purple",
+        neutral_hue="slate",
+        font=gr.themes.GoogleFont("Inter")
+    )
+) as demo:
     
     gr.HTML("""
-        <div style="text-align: center; margin-bottom: 20px;">
-            <h1>📚 NCERT Multilingual Doubt Solver</h1>
-            <p style="color: #666;">Ask doubts from your NCERT textbooks (Grades 5-10) in any language!</p>
+        <div class="header-container" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h1 style="margin: 0; color: white;">📚 NCERT Multilingual Doubt Solver</h1>
+            <p style="color: rgba(255,255,255,0.9); margin: 5px 0 0 0;">Ask doubts from your NCERT textbooks (Grades 5-10) in Hindi or English!</p>
         </div>
     """)
     
