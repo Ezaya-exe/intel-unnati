@@ -9,7 +9,7 @@ import sys
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 import logging
 from tqdm import tqdm
 
@@ -35,14 +35,44 @@ BASE_DIR = Path(__file__).parent
 RAW_PDFS_DIR = BASE_DIR / "data" / "raw_pdfs"
 VECTOR_DB_DIR = BASE_DIR / "data" / "vector_db"
 
-# Text splitter for chunking
+# Text splitter for chunking (larger chunks for better context)
 encoding = tiktoken.get_encoding("cl100k_base")
 splitter = RecursiveCharacterTextSplitter(
-    chunk_size=512,
-    chunk_overlap=100,
+    chunk_size=768,       # Increased from 512 for better context
+    chunk_overlap=150,    # Increased overlap
     length_function=lambda x: len(encoding.encode(x)),
     separators=["\n\n\n", "\n\n", "\n", ". ", " ", ""]
 )
+
+# Chapter header patterns (English and Hindi)
+CHAPTER_PATTERNS = [
+    r'^Chapter\s+(\d+)',
+    r'^CHAPTER\s+(\d+)',
+    r'^Unit\s+(\d+)',
+    r'^UNIT\s+(\d+)',
+    r'^Lesson\s+(\d+)',
+    r'^अध्याय\s+(\d+)',
+    r'^पाठ\s+(\d+)',
+    r'^\d+\.\s+([A-Z][^\.]+)',  # "1. Introduction to..."
+]
+
+
+def detect_chapter_title(text: str) -> Optional[str]:
+    """
+    Detect chapter/section title from text beginning
+    """
+    lines = text.strip().split('\n')[:5]  # Check first 5 lines
+    
+    for line in lines:
+        line = line.strip()
+        for pattern in CHAPTER_PATTERNS:
+            match = re.match(pattern, line, re.IGNORECASE)
+            if match:
+                # Return the full line as title
+                return line[:100]  # Limit length
+    
+    return None
+
 
 
 def extract_text_from_pdf(pdf_path: Path) -> str:
@@ -94,7 +124,7 @@ def detect_language(text: str) -> str:
 
 
 def process_grade_folder(grade_dir: Path, grade: int) -> List[Dict]:
-    """Process all PDFs in a grade folder"""
+    """Process all PDFs in a grade folder with chapter-aware chunking"""
     chunks = []
     pdf_files = list(grade_dir.glob("*.pdf"))
     
@@ -114,10 +144,13 @@ def process_grade_folder(grade_dir: Path, grade: int) -> List[Dict]:
         file_meta = parse_filename(pdf_path.name)
         language = detect_language(text)
         
+        # Detect chapter title from document beginning
+        chapter_title = detect_chapter_title(text)
+        
         # Split into chunks
         text_chunks = splitter.split_text(text)
         
-        # Create chunk documents
+        # Create chunk documents with chapter context
         for idx, chunk_text in enumerate(text_chunks):
             if len(chunk_text.strip()) < 20:
                 continue
@@ -126,16 +159,24 @@ def process_grade_folder(grade_dir: Path, grade: int) -> List[Dict]:
             text_hash = hash(chunk_text) % 10000
             chunk_id = f"g{grade}_{file_meta['subject'][:3]}_{file_meta['chapter_code']}_c{idx}_{text_hash}"
             
+            # Prepend chapter context to chunk text for better retrieval
+            if chapter_title and idx > 0:  # Don't prepend to first chunk (already has title)
+                enriched_text = f"[{file_meta['subject']} - {chapter_title}]\n\n{chunk_text}"
+            else:
+                enriched_text = chunk_text
+            
             chunk = {
                 "chunk_id": chunk_id,
-                "text": chunk_text,
+                "text": enriched_text,
                 "metadata": {
                     "grade": grade,
                     "subject": file_meta["subject"],
                     "language": language,
                     "textbook": file_meta["title"],
                     "chapter": file_meta["chapter_code"],
-                    "source_file": pdf_path.name
+                    "chapter_title": chapter_title or "Unknown",
+                    "source_file": pdf_path.name,
+                    "chunk_index": idx
                 }
             }
             chunks.append(chunk)

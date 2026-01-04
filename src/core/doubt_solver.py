@@ -170,11 +170,14 @@ class NCERTDoubtSolver:
         if subject:
             filters['subject'] = subject
         
-        # Step 3: Retrieve context
-        search_results = self.vector_store.search(
+        # Step 3: Retrieve context using advanced search (hybrid + rerank + expansion)
+        search_results = self.vector_store.advanced_search(
             query=question,
             n_results=n_context_chunks,
-            filters=filters if filters else None
+            filters=filters if filters else None,
+            use_hybrid=True,
+            use_rerank=True,
+            use_expansion=True
         )
         
         context_chunks = search_results.get('results', [])

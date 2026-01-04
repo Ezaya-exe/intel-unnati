@@ -4,7 +4,7 @@ from chromadb.utils import embedding_functions
 from sentence_transformers import SentenceTransformer
 import json
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import logging
 import torch
 
@@ -13,15 +13,22 @@ logger = logging.getLogger(__name__)
 
 
 class NCERTVectorStore:
-    """ChromaDB-based vector store for NCERT textbooks"""
+    """ChromaDB-based vector store for NCERT textbooks with hybrid search and reranking"""
     
-    def __init__(self, persist_directory="data/vector_db", model_name="paraphrase-multilingual-mpnet-base-v2"):
+    def __init__(self, persist_directory="data/vector_db", 
+                 model_name="paraphrase-multilingual-mpnet-base-v2",
+                 enable_hybrid=True,
+                 enable_reranker=True,
+                 enable_query_expansion=True):
         """
-        Initialize ChromaDB vector store
+        Initialize ChromaDB vector store with advanced search features
         
         Args:
             persist_directory: Path to persist the database
             model_name: Name of the sentence-transformer model for embeddings
+            enable_hybrid: Enable BM25 + semantic hybrid search
+            enable_reranker: Enable cross-encoder reranking
+            enable_query_expansion: Enable query expansion
         """
         self.persist_directory = persist_directory
         Path(persist_directory).mkdir(exist_ok=True, parents=True)
@@ -43,6 +50,49 @@ class NCERTVectorStore:
         
         logger.info(f"Initialized vector store at {persist_directory}")
         logger.info(f"Collection contains {self.collection.count()} documents")
+        
+        # Initialize advanced search components
+        self.hybrid_searcher = None
+        self.reranker = None
+        self.query_expander = None
+        
+        # BM25 Hybrid Search
+        if enable_hybrid:
+            try:
+                from retrieval.hybrid_search import BM25Index, HybridSearcher, build_bm25_from_chromadb
+                
+                bm25_path = str(Path(persist_directory) / "bm25_index.pkl")
+                self.bm25_index = BM25Index(bm25_path)
+                
+                # Try to load existing index
+                if not self.bm25_index.load():
+                    if self.collection.count() > 0:
+                        logger.info("Building BM25 index from collection...")
+                        self.bm25_index = build_bm25_from_chromadb(self, bm25_path)
+                
+                self.hybrid_searcher = HybridSearcher(self, self.bm25_index)
+                logger.info("✓ Hybrid search enabled")
+            except Exception as e:
+                logger.warning(f"Failed to enable hybrid search: {e}")
+        
+        # Reranker
+        if enable_reranker:
+            try:
+                from retrieval.reranker import CachedReranker
+                self.reranker = CachedReranker(model_name='fast', device=device)
+                logger.info("✓ Reranker enabled")
+            except Exception as e:
+                logger.warning(f"Failed to enable reranker: {e}")
+        
+        # Query Expansion
+        if enable_query_expansion:
+            try:
+                from retrieval.query_expansion import QueryExpander
+                cache_path = str(Path(persist_directory) / "query_expansion_cache.json")
+                self.query_expander = QueryExpander(use_llm=False, cache_path=cache_path)  # Start with static only
+                logger.info("✓ Query expansion enabled")
+            except Exception as e:
+                logger.warning(f"Failed to enable query expansion: {e}")
     
     def add_chunks(self, chunks: List[Dict[str, Any]]):
         """
@@ -132,6 +182,79 @@ class NCERTVectorStore:
                 })
         
         return formatted_results
+    
+    def advanced_search(self, query: str, n_results: int = 5, 
+                        filters: Dict[str, Any] = None,
+                        use_hybrid: bool = True,
+                        use_rerank: bool = True,
+                        use_expansion: bool = True) -> Dict[str, Any]:
+        """
+        Advanced search with hybrid search, reranking, and query expansion
+        
+        Args:
+            query: Search query
+            n_results: Number of final results to return
+            filters: Metadata filters
+            use_hybrid: Use BM25 + semantic hybrid search
+            use_rerank: Use cross-encoder reranking
+            use_expansion: Use query expansion
+            
+        Returns:
+            Dictionary with search results
+        """
+        # 1. Query Expansion (optional)
+        expanded_query = query
+        expansions = []
+        if use_expansion and self.query_expander:
+            expansions = self.query_expander.expand(query, max_terms=3)
+            if expansions:
+                expanded_query = self.query_expander.get_expanded_query_string(query, max_terms=2)
+                logger.debug(f"Expanded query: '{query}' -> '{expanded_query}'")
+        
+        # 2. Get candidates (more than needed for reranking)
+        n_candidates = n_results * 4 if use_rerank else n_results
+        
+        # 3. Hybrid or Semantic Search
+        if use_hybrid and self.hybrid_searcher:
+            # Use hybrid search (BM25 + semantic with RRF)
+            search_results = self.hybrid_searcher.search(
+                expanded_query, 
+                n_results=n_candidates,
+                filters=filters
+            )
+            candidates = search_results.get('results', [])
+        else:
+            # Fall back to pure semantic search
+            search_results = self.search(expanded_query, n_results=n_candidates, filters=filters)
+            candidates = search_results.get('results', [])
+        
+        # 4. Rerank (optional)
+        if use_rerank and self.reranker and candidates:
+            candidates = self.reranker.rerank(
+                query,  # Use original query for reranking
+                candidates, 
+                top_k=n_results
+            )
+        else:
+            candidates = candidates[:n_results]
+        
+        return {
+            'query': query,
+            'expanded_query': expanded_query if expanded_query != query else None,
+            'expansions': expansions,
+            'results': candidates,
+            'search_type': 'hybrid' if (use_hybrid and self.hybrid_searcher) else 'semantic',
+            'reranked': use_rerank and self.reranker is not None
+        }
+    
+    def rebuild_bm25_index(self):
+        """Rebuild BM25 index from current collection"""
+        if self.hybrid_searcher:
+            from retrieval.hybrid_search import build_bm25_from_chromadb
+            bm25_path = str(Path(self.persist_directory) / "bm25_index.pkl")
+            self.bm25_index = build_bm25_from_chromadb(self, bm25_path)
+            self.hybrid_searcher.bm25_index = self.bm25_index
+            logger.info("✓ BM25 index rebuilt")
     
     def get_collection_stats(self) -> Dict[str, Any]:
         """Get statistics about the collection"""
