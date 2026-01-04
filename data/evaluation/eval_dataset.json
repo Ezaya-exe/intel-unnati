@@ -1,0 +1,507 @@
+{
+  "version": "1.0",
+  "description": "NCERT Doubt-Solver Evaluation Dataset - 50 QA pairs across Grades 5-10",
+  "created": "2026-01-04",
+  "questions": [
+    {
+      "id": "eval_001",
+      "question": "What is photosynthesis?",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["chlorophyll", "sunlight", "carbon dioxide", "glucose", "oxygen", "leaves"],
+      "expected_grade_range": [6, 7, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_002",
+      "question": "Explain the Fundamental Theorem of Arithmetic with an example.",
+      "grade": 10,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["prime", "factorization", "unique", "composite", "product"],
+      "expected_grade_range": [10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_003",
+      "question": "What is the difference between evaporation and boiling?",
+      "grade": 9,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["surface", "temperature", "throughout", "liquid", "vapour", "100°C"],
+      "expected_grade_range": [6, 9],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_004",
+      "question": "Describe the nitrogen cycle and its importance in agriculture.",
+      "grade": 9,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["nitrogen fixation", "bacteria", "soil", "plants", "decomposition", "fertilizer"],
+      "expected_grade_range": [8, 9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_005",
+      "question": "How did the Treaty of Versailles lead to World War II?",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["Germany", "reparations", "humiliation", "Hitler", "revenge", "1919"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_006",
+      "question": "What are rational numbers? Give examples.",
+      "grade": 8,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["p/q", "integers", "fraction", "denominator", "non-zero"],
+      "expected_grade_range": [7, 8],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_007",
+      "question": "Explain the structure of an atom.",
+      "grade": 9,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["nucleus", "protons", "neutrons", "electrons", "orbit", "shell"],
+      "expected_grade_range": [8, 9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_008",
+      "question": "What is democracy? What are its key features?",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["people", "elections", "voting", "rights", "government", "citizens"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_009",
+      "question": "State and prove the Pythagoras theorem.",
+      "grade": 10,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["right triangle", "hypotenuse", "a² + b² = c²", "perpendicular", "base"],
+      "expected_grade_range": [8, 9, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_010",
+      "question": "What are the main features of the Indian Constitution?",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["fundamental rights", "preamble", "secular", "federal", "democratic", "republic"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_011",
+      "question": "Explain the process of respiration in plants.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["oxygen", "glucose", "carbon dioxide", "energy", "mitochondria", "ATP"],
+      "expected_grade_range": [7, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_012",
+      "question": "What is an ecosystem? Explain its components.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["biotic", "abiotic", "producers", "consumers", "decomposers", "food chain"],
+      "expected_grade_range": [6, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_013",
+      "question": "Explain the law of conservation of mass.",
+      "grade": 9,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["mass", "created", "destroyed", "chemical reaction", "Lavoisier", "reactants", "products"],
+      "expected_grade_range": [9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_014",
+      "question": "What is the difference between metals and non-metals?",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["conductor", "malleable", "ductile", "lustre", "brittle", "insulator"],
+      "expected_grade_range": [8, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_015",
+      "question": "Describe the water cycle.",
+      "grade": 6,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["evaporation", "condensation", "precipitation", "collection", "sun", "clouds"],
+      "expected_grade_range": [5, 6, 7],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_016",
+      "question": "What are the factors affecting crop production?",
+      "grade": 9,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["soil", "irrigation", "manure", "fertilizer", "climate", "seeds"],
+      "expected_grade_range": [8, 9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_017",
+      "question": "Explain Newton's three laws of motion.",
+      "grade": 9,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["inertia", "force", "acceleration", "action", "reaction", "mass"],
+      "expected_grade_range": [9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_018",
+      "question": "What is the Mughal architecture? Give examples.",
+      "grade": 7,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["Taj Mahal", "Red Fort", "dome", "marble", "Akbar", "Shah Jahan"],
+      "expected_grade_range": [7, 8],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_019",
+      "question": "What is a fraction? Explain with examples.",
+      "grade": 5,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["numerator", "denominator", "part", "whole", "1/2", "half"],
+      "expected_grade_range": [5, 6],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_020",
+      "question": "Describe the life cycle of a frog.",
+      "grade": 8,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["egg", "tadpole", "metamorphosis", "adult", "gills", "lungs"],
+      "expected_grade_range": [8],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_021",
+      "question": "What are the properties of a parallelogram?",
+      "grade": 8,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["parallel", "equal", "opposite sides", "diagonals", "bisect", "angles"],
+      "expected_grade_range": [8, 9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_022",
+      "question": "Explain the French Revolution and its causes.",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["1789", "Bastille", "monarchy", "Louis XVI", "inequality", "peasants"],
+      "expected_grade_range": [9],
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_023",
+      "question": "What is an acid? Give examples.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["H+", "sour", "pH", "hydrochloric", "sulfuric", "litmus", "red"],
+      "expected_grade_range": [7, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_024",
+      "question": "Explain the process of digestion in humans.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["mouth", "stomach", "intestine", "enzyme", "absorption", "saliva"],
+      "expected_grade_range": [7, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_025",
+      "question": "What is the greenhouse effect?",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["CO2", "atmosphere", "temperature", "global warming", "radiation", "heat"],
+      "expected_grade_range": [8, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_026",
+      "question": "प्रकाश संश्लेषण क्या है?",
+      "grade": 10,
+      "subject": "Science",
+      "language": "Hindi",
+      "expected_keywords": ["क्लोरोफिल", "सूर्य", "कार्बन डाइऑक्साइड", "ग्लूकोज", "ऑक्सीजन"],
+      "expected_grade_range": [7, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_027",
+      "question": "परमाणु की संरचना समझाइए।",
+      "grade": 9,
+      "subject": "Science",
+      "language": "Hindi",
+      "expected_keywords": ["नाभिक", "प्रोटॉन", "न्यूट्रॉन", "इलेक्ट्रॉन", "कक्षा"],
+      "expected_grade_range": [9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_028",
+      "question": "भारतीय संविधान की मुख्य विशेषताएं क्या हैं?",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "Hindi",
+      "expected_keywords": ["मौलिक अधिकार", "प्रस्तावना", "धर्मनिरपेक्ष", "संघीय", "लोकतांत्रिक"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_029",
+      "question": "What is a polynomial? Give examples.",
+      "grade": 9,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["variable", "coefficient", "degree", "x²", "constant", "expression"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_030",
+      "question": "Explain the process of reproduction in flowering plants.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["pollination", "fertilization", "stamen", "pistil", "ovary", "seed"],
+      "expected_grade_range": [7, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_031",
+      "question": "What is Ohm's Law?",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["V = IR", "voltage", "current", "resistance", "proportional"],
+      "expected_grade_range": [10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_032",
+      "question": "Describe the caste system in India.",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["Brahmin", "Kshatriya", "Vaishya", "Shudra", "discrimination", "varna"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_033",
+      "question": "What are the types of triangles based on sides?",
+      "grade": 7,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["equilateral", "isosceles", "scalene", "equal", "sides"],
+      "expected_grade_range": [6, 7, 8],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_034",
+      "question": "Explain the working of the human heart.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["chambers", "ventricle", "atrium", "blood", "pumping", "valves"],
+      "expected_grade_range": [7, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_035",
+      "question": "What is the importance of forests?",
+      "grade": 7,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["oxygen", "habitat", "rainfall", "soil", "biodiversity", "climate"],
+      "expected_grade_range": [7, 9],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_036",
+      "question": "Explain the partition of India in 1947.",
+      "grade": 10,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["Pakistan", "independence", "Mountbatten", "Hindu", "Muslim", "violence"],
+      "expected_grade_range": [10],
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_037",
+      "question": "What is the area of a circle?",
+      "grade": 7,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["πr²", "radius", "pi", "3.14", "formula"],
+      "expected_grade_range": [7, 8, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_038",
+      "question": "Describe the nervous system.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["brain", "spinal cord", "neurons", "impulse", "reflex", "sensory"],
+      "expected_grade_range": [10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_039",
+      "question": "What are renewable and non-renewable resources?",
+      "grade": 10,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["solar", "wind", "coal", "petroleum", "exhaustible", "inexhaustible"],
+      "expected_grade_range": [8, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_040",
+      "question": "Explain the concept of force and pressure.",
+      "grade": 8,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["push", "pull", "area", "Newton", "Pascal", "N/m²"],
+      "expected_grade_range": [8],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_041",
+      "question": "What is the role of the judiciary in India?",
+      "grade": 10,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["Supreme Court", "High Court", "justice", "constitution", "fundamental rights"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_042",
+      "question": "How do you solve a linear equation in one variable?",
+      "grade": 8,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["variable", "x", "isolate", "both sides", "solution"],
+      "expected_grade_range": [7, 8],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_043",
+      "question": "What is sound? How does it travel?",
+      "grade": 9,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["vibration", "medium", "wave", "compression", "rarefaction", "speed"],
+      "expected_grade_range": [8, 9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_044",
+      "question": "Describe the major climate zones of India.",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["tropical", "monsoon", "rainfall", "temperature", "regions"],
+      "expected_grade_range": [9],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_045",
+      "question": "What is probability? Give an example.",
+      "grade": 10,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["likelihood", "event", "outcome", "coin", "dice", "0 to 1"],
+      "expected_grade_range": [9, 10],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_046",
+      "question": "Explain heredity and evolution.",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["genes", "DNA", "inheritance", "variation", "Darwin", "natural selection"],
+      "expected_grade_range": [10],
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_047",
+      "question": "What were the main causes of the Russian Revolution?",
+      "grade": 9,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["Tsar", "Lenin", "Bolsheviks", "1917", "poverty", "workers"],
+      "expected_grade_range": [9],
+      "difficulty": "hard"
+    },
+    {
+      "id": "eval_048",
+      "question": "What is a quadrilateral? Name its types.",
+      "grade": 8,
+      "subject": "Mathematics",
+      "language": "English",
+      "expected_keywords": ["four sides", "rectangle", "square", "rhombus", "trapezium", "parallelogram"],
+      "expected_grade_range": [8, 9],
+      "difficulty": "easy"
+    },
+    {
+      "id": "eval_049",
+      "question": "How do organisms obtain their nutrition?",
+      "grade": 10,
+      "subject": "Science",
+      "language": "English",
+      "expected_keywords": ["autotrophic", "heterotrophic", "photosynthesis", "food", "energy"],
+      "expected_grade_range": [7, 10],
+      "difficulty": "medium"
+    },
+    {
+      "id": "eval_050",
+      "question": "What is globalisation? What are its effects?",
+      "grade": 10,
+      "subject": "Social Science",
+      "language": "English",
+      "expected_keywords": ["integration", "trade", "MNC", "technology", "economy", "world"],
+      "expected_grade_range": [10],
+      "difficulty": "medium"
+    }
+  ]
+}
