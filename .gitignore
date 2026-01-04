@@ -1,0 +1,109 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ===============================
+# DATA AND MODELS (Large Files)
+# ===============================
+# Raw PDFs
+data/raw_pdfs/
+
+# Processed data
+data/processed/
+
+# Vector database (ChromaDB)
+data/vector_db/
+data/chroma/
+
+# Feedback database
+data/*.db
+
+# All JSON files in data
+data/*.json
+
+# Models (GGUF files are very large)
+models/*.gguf
+models/*.bin
+models/*.pkl
+models/*.safetensors
+
+# ===============================
+# LOGS AND OUTPUTS
+# ===============================
+logs/
+*.log
+*_output.txt
+app_log.txt
+
+# ===============================
+# ENVIRONMENT
+# ===============================
+.env
+.env.local
+.env.*.local
+
+# ===============================
+# IDE AND EDITOR
+# ===============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ===============================
+# OS GENERATED
+# ===============================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ===============================
+# JUPYTER
+# ===============================
+.ipynb_checkpoints/
+*.ipynb
+
+# ===============================
+# GRADIO
+# ===============================
+.gradio/
+flagged/
+
+# ===============================
+# TESTING
+# ===============================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ===============================
+# MISC
+# ===============================
+*.zip
+*.tar.gz
+*.rar
+node_modules/
