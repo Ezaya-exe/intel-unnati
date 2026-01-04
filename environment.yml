@@ -1,0 +1,51 @@
+name: ncert_rag
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  # Core Python
+  - python=3.10
+
+  # PyTorch with CUDA
+  - pytorch>=2.0
+  - pytorch-cuda=12.1
+  - torchvision
+  - torchaudio
+
+  # ML & NLP
+  - transformers>=4.51.0
+  - sentence-transformers>=2.2.0
+  - tiktoken
+
+  # Vector Database
+  - chromadb>=0.4.0
+
+  # PDF Processing
+  - pymupdf
+
+  # Web Framework
+  - gradio>=4.0.0
+
+  # Utilities
+  - numpy
+  - tqdm
+  - requests
+  - aiofiles
+  - python-dotenv
+
+  # Language Detection
+  - langdetect
+
+  # pip dependencies
+  - pip
+  - pip:
+    # LangChain for text splitting
+    - langchain-text-splitters>=0.2.0
+    
+    # llama-cpp-python for GGUF models (needs CUDA build)
+    - llama-cpp-python>=0.3.0
+
+    # Additional utilities
+    - httpx

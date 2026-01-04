@@ -1,0 +1,48 @@
+# OCR and PDF Processing
+paddleocr
+paddlepaddle
+PyMuPDF
+opencv-python
+Pillow
+pytesseract
+
+# Text Processing
+langchain
+langchain-community
+sentence-transformers
+tiktoken
+
+# Vector Database
+lancedb
+qdrant-client
+
+# Embeddings
+cohere
+
+# LLM and Generation
+transformers
+torch
+peft
+bitsandbytes
+accelerate
+
+# API and Backend
+fastapi
+uvicorn
+pydantic
+redis
+celery
+
+# Database
+psycopg2-binary
+sqlalchemy
+
+# Utilities
+python-dotenv
+loguru
+tqdm
+pandas
+numpy
+
+# Evaluation
+ragas
