@@ -194,41 +194,34 @@ def get_stats():
     except Exception as e:
         return f"Error loading stats: {str(e)}"
 
-# Premium CSS with animations
+# Premium CSS with animations - LIGHT THEME
 PREMIUM_CSS = """
 /* ===== IMPORTS ===== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
 
-/* ===== CSS VARIABLES ===== */
-:root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --primary-light: #818cf8;
-    --secondary: #ec4899;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --error: #ef4444;
-    --bg-dark: #0f172a;
-    --bg-card: #1e293b;
-    --bg-hover: #334155;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --border: #334155;
-    --glass: rgba(255, 255, 255, 0.05);
-    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    --radius: 16px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ===== BASE STYLES ===== */
-.gradio-container {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%) !important;
+/* ===== BASE STYLES - LIGHT THEME ===== */
+body, .gradio-container, .main, .contain {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8ecff 50%, #f5f7ff 100%) !important;
     min-height: 100vh;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
-.dark {
-    --background-fill-primary: transparent !important;
+* {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --secondary: #ec4899;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --bg-card: #ffffff;
+    --bg-hover: #f8fafc;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --border: #e2e8f0;
+    --shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ===== ANIMATIONS ===== */
@@ -265,9 +258,9 @@ PREMIUM_CSS = """
 
 /* ===== HEADER ===== */
 .header-main {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 24px;
     padding: 32px;
     margin-bottom: 24px;
@@ -275,6 +268,7 @@ PREMIUM_CSS = """
     animation: fadeInUp 0.6s ease-out;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.3);
 }
 
 .header-main::before {
@@ -291,17 +285,15 @@ PREMIUM_CSS = """
 .header-title {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #fff 0%, #c7d2fe 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff;
     margin: 0 0 8px 0;
     position: relative;
     z-index: 1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .header-subtitle {
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 1.1rem;
     margin: 0;
     position: relative;
@@ -637,6 +629,7 @@ textarea::placeholder {
     border-radius: var(--radius);
     padding: 24px;
     animation: fadeInUp 0.4s ease-out 0.2s backwards;
+    box-shadow: var(--shadow);
 }
 
 .sidebar-title {
