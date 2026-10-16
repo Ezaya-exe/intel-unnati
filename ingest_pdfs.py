@@ -75,12 +75,18 @@ def detect_chapter_title(text: str) -> Optional[str]:
 
 
 
-def extract_text_from_pdf(pdf_path: Path) -> str:
-    """Extract text from a PDF file using PyMuPDF"""
+def extract_text_from_pdf(pdf_path: Path, skip_front_matter: int = 0) -> str:
+    """Extract text from a PDF file using PyMuPDF.
+    
+    Most NCERT PDFs are individual chapters (7-30 pages) with no front matter.
+    Some are full-book prelims files (*_ps.pdf) that we may want to skip entirely.
+    """
     try:
         doc = fitz.open(pdf_path)
         text = ""
-        for page in doc:
+        for page_num, page in enumerate(doc):
+            if page_num < skip_front_matter:
+                continue
             text += page.get_text() + "\n"
         doc.close()
         return text.strip()
@@ -126,7 +132,8 @@ def detect_language(text: str) -> str:
 def process_grade_folder(grade_dir: Path, grade: int) -> List[Dict]:
     """Process all PDFs in a grade folder with chapter-aware chunking"""
     chunks = []
-    pdf_files = list(grade_dir.glob("*.pdf"))
+    # Skip prelims/cover files that contain only publication credits
+    pdf_files = [p for p in grade_dir.glob("*.pdf") if not p.stem.endswith(("_ps", "_cc"))]
     
     if not pdf_files:
         logger.warning(f"No PDF files found in {grade_dir}")
@@ -142,7 +149,7 @@ def process_grade_folder(grade_dir: Path, grade: int) -> List[Dict]:
         
         # Parse metadata from filename
         file_meta = parse_filename(pdf_path.name)
-        language = detect_language(text)
+        language = "English"
         
         # Detect chapter title from document beginning
         chapter_title = detect_chapter_title(text)

@@ -93,7 +93,11 @@ def run_evaluation(solver: NCERTDoubtSolver, dataset: Dict,
     print(f"\n{'='*60}")
     print(f"🧪 Running Evaluation on {len(questions)} Questions")
     print(f"{'='*60}\n")
-    
+    print("Warming up model...")
+    try:
+        solver.ask("What is photosynthesis?", grade=10, subject="Science")
+    except Exception:
+        pass
     for i, q in enumerate(questions, 1):
         try:
             if verbose:
@@ -115,7 +119,7 @@ def run_evaluation(solver: NCERTDoubtSolver, dataset: Dict,
             # Extract metrics
             answer = response.get('answer', '')
             citations = response.get('citations', [])
-            in_scope = response.get('in_scope', False)
+            in_scope =  response.get('metadata', {}).get('in_scope', False)
             
             # Calculate metrics
             keyword_coverage = calculate_keyword_coverage(
@@ -161,7 +165,7 @@ def run_evaluation(solver: NCERTDoubtSolver, dataset: Dict,
             })
             if verbose:
                 print(f"   ❌ Error: {e}")
-    
+        time.sleep(1.0)
     # Calculate summary statistics
     if results['latencies_ms']:
         results['summary'] = {

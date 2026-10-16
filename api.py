@@ -20,13 +20,13 @@ from pydantic import BaseModel, Field
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from core.doubt_solver import NCERTDoubtSolver, detect_language
+from core.doubt_solver import NCERTDoubtSolver
 from core.feedback import save_feedback, get_feedback_stats
 
 # Initialize FastAPI app
 app = FastAPI(
     title="NCERT Doubt Solver API",
-    description="Multilingual RAG-based doubt solver for NCERT textbooks (Grades 5-10)",
+    description=" RAG-based doubt solver for NCERT textbooks (Grades 5-10)",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"

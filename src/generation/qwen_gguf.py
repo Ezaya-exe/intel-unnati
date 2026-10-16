@@ -16,7 +16,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Global model cache
-_model_path = "/mnt/d/study/python/intel unnati/models/Qwen3-4B-Q4_K_M.gguf"
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_project_root = os.path.abspath(os.path.join(_current_dir, "..", ".."))
+_model_path = os.path.join(_project_root, "models", "Qwen3-4B-Q4_K_M.gguf")
 _llm = None
 
 def load_model(model_path: str = None):

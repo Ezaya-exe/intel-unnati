@@ -10,7 +10,7 @@ from pathlib import Path
 import time
 
 # Base paths
-BASE_DIR = Path("/mnt/d/study/python/intel unnati/data")
+BASE_DIR = Path(os.path.dirname(os.path.abspath(__file__))) / "data"
 RAW_PDFS_DIR = BASE_DIR / "raw_pdfs"
 
 # NCERT textbooks organized by grade (English medium + Hindi + Sanskrit)
@@ -30,7 +30,7 @@ TEXTBOOKS = {
         "fees1": ("Social Science", "Exploring Society"),
         "fepr1": ("English", "Poorvi"),
         "fhml1": ("Hindi", "Malhar"),
-        "fsrj1": ("Sanskrit", "Ranjini-1"),
+        "fsde1": ("Sanskrit", "Deepakam"),
     },
     "7": {
         # Class 7 (New NCF 2024-25)
@@ -41,8 +41,7 @@ TEXTBOOKS = {
         "gees2": ("Social Science", "Exploring Society Part-2"),
         "gepr1": ("English", "Poorvi"),
         "ghml1": ("Hindi", "Malhar"),
-        "gsrj1": ("Sanskrit", "Ranjini-1 Part-1"),
-        "gsrj2": ("Sanskrit", "Ranjini-1 Part-2"),
+        "gsde1": ("Sanskrit", "Deepakam"),
     },
     "8": {
         # Class 8 (New NCF 2024-25)
@@ -52,24 +51,27 @@ TEXTBOOKS = {
         "hees1": ("Social Science", "Exploring Society"),
         "hepr1": ("English", "Poorvi"),
         "hhml1": ("Hindi", "Malhar"),
-        "hsrj1": ("Sanskrit", "Ranjini-1"),
+        "hsde1": ("Sanskrit", "Deepakam"),
     },
     "9": {
-        # Class 9 (Secondary)
-        "iemh1": ("Mathematics", "Mathematics"),
-        "iesc1": ("Science", "Science"),
-        "iess1": ("Social Science", "Democratic Politics-I"),
+        # Class 9 (Secondary) - 2026-27 updated
+        "iemh1": ("Mathematics", "Ganita Manjari"),
+        "iesc1": ("Science", "Exploration"),
+        "iest1": ("Social Science", "Understanding Society India and Beyond PART-I"),
+        "iess1": ("Social Science", "Contemporary India"),
         "iess2": ("Social Science", "Economics"),
         "iess3": ("Social Science", "India and Contemporary World-I"),
-        "iess4": ("Social Science", "Contemporary India-I"),
-        "iebe1": ("English", "Beehive"),
+        "iess4": ("Social Science", "Democratic Politics"),
+        "iebe1": ("English", "Kaveri"),
+        "iewe1": ("English", "Words and Expressions"),
         "iemo1": ("English", "Moments"),
-        "ihkk1": ("Hindi", "Kshitij-1"),
-        "ihks1": ("Hindi", "Kritika-1"),
-        "ihsp1": ("Hindi", "Sparsh-1"),
-        "ihsn1": ("Hindi", "Sanchayan-1"),
-        "isrr1": ("Sanskrit", "Shemushi-1"),
-        "isab1": ("Sanskrit", "Abhyaswaan Bhav-1"),
+        "ihga1": ("Hindi", "Ganga"),
+        "ihsp1": ("Hindi", "Sparsh"),
+        "ihks1": ("Hindi", "Kshitij"),
+        "ihkr1": ("Hindi", "Kritika"),
+        "ihsa1": ("Hindi", "Sanchayan"),
+        "ihsh1": ("Sanskrit", "Sharada"),
+        "isab1": ("Sanskrit", "Abhyaswaan Bhav"),
     },
     "10": {
         # Class 10 (Secondary)
@@ -104,6 +106,12 @@ def download_textbook(book_code, grade, subject, title, retries=3):
     safe_title = make_safe_filename(title)
     zip_path = grade_dir / f"{book_code}.zip"
     
+    prefix = f"{subject.replace(' ', '_')}_{safe_title}"
+    existing = [f for f in grade_dir.iterdir() if f.name.startswith(prefix) and f.suffix == '.pdf']
+    if len(existing) > 0:
+        print(f"    ⏭️ Skipping {title}, already have {len(existing)} chapters.")
+        return True
+        
     print(f"  📥 Downloading: {title} ({book_code})...")
     
     for attempt in range(retries):
