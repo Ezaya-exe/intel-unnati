@@ -1,4 +1,4 @@
-# NCERT Multilingual Doubt Solver 📚
+# NCERT Doubt Solver 📚
 
 > **Intel Unnati Grand Challenge 2024–25** | AI-powered study companion for the NCERT curriculum
 
